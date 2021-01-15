@@ -1,9 +1,9 @@
-# FROM jenkins/jenkins:lts
-FROM quay.io/openshift/origin-jenkins
+FROM jenkins/jenkins:lts
+# FROM quay.io/openshift/origin-jenkins
 USER root
-RUN yum update \
+RUN apt-get update \
 	&& echo "Installing build dependencies" \
-	&& yum install --yes --no-install-recommends \
+	&& apt-get install --yes --no-install-recommends \
 	dirmngr \
 	fontconfig \
 	gnupg \
@@ -15,7 +15,7 @@ RUN yum update \
 	&& rm --recursive --force /var/lib/apt/lists/*
 
 RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
-RUN yum -y install nodejs
+RUN apt-get -y install nodejs
 RUN node -v
 RUN npm -v
 
