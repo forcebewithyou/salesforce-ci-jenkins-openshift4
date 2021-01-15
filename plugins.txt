@@ -1,0 +1,8 @@
+blueocean:1.24.3
+blueocean-pipeline-api-impl:1.24.3
+cloudbees-bitbucket-branch-source:2.9.7
+blueocean-bitbucket-pipeline:1.24.3
+bitbucket-oauth:0.10
+bitbucket-build-status-notifier:1.4.2
+bitbucket-push-and-pull-request:2.6.4
+blueocean-github-pipeline:1.24.3
