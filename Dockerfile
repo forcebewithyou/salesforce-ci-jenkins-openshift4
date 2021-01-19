@@ -26,6 +26,7 @@ RUN npm install -g sfdx-cli
 RUN sfdx --version
 
 RUN cd /usr/lib/jenkins
+RUN rm jenkins.war
 
 RUN wget https://get.jenkins.io/war-stable/2.263.2/jenkins.war
 # RUN wget https://get.jenkins.io/war-stable/$JENKINS_VERSION/jenkins.war
