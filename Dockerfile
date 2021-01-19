@@ -29,6 +29,7 @@ RUN sfdx --version
 RUN cd /usr/lib/jenkins
 
 RUN wget https://get.jenkins.io/war-stable/2.263.2/jenkins.war
+# RUN wget https://get.jenkins.io/war-stable/$JENKINS_VERSION/jenkins.war
 
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
