@@ -25,11 +25,10 @@ USER root
 
 # RUN sfdx --version
 
-RUN cd /usr/lib/jenkins
-RUN ls -la
-RUN rm jenkins.war
+RUN rm /usr/lib/jenkins/jenkins.war
 
-RUN wget https://get.jenkins.io/war-stable/2.263.2/jenkins.war
+
+RUN -O wget /usr/lib/jenkins/jenkins.war https://get.jenkins.io/war-stable/2.263.2/jenkins.war
 # RUN wget https://get.jenkins.io/war-stable/$JENKINS_VERSION/jenkins.war
 
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
