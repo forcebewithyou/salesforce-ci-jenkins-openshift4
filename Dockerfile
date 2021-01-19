@@ -26,6 +26,7 @@ USER root
 # RUN sfdx --version
 
 RUN cd /usr/lib/jenkins
+RUN ls -la
 RUN rm jenkins.war
 
 RUN wget https://get.jenkins.io/war-stable/2.263.2/jenkins.war
