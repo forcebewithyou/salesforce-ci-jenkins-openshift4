@@ -1,5 +1,4 @@
-# FROM jenkins/jenkins:lts
-FROM quay.io/openshift/origin-jenkins
+FROM image-registry.openshift-image-registry.svc:5000/salesforce-ci/ose-jenkins
 ENV JENKINS_VERSION=2.263.2
 ENV JENKINS_WAR_PATH=/usr/lib/jenkins
 
