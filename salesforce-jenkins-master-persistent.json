@@ -123,7 +123,7 @@
 									"periodSeconds": 360,
 									"timeoutSeconds": 240
 								},
-								"name": "jenkins",
+								"name": "salesforcejenkinsmaster",
 								"readinessProbe": {
 									"httpGet": {
 										"path": "/login",
