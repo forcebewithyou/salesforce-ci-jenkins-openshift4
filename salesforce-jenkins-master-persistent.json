@@ -8,10 +8,10 @@
 	"metadata": {
 		"annotations": {
 			"iconClass": "icon-jenkins",
-			"openshift.io/display-name": "Jenkins Master Persistant",
+			"openshift.io/display-name": "Jenkins Master LTS Persistant",
 			"tags": "instant-app,jenkins"
 		},
-		"name": "Jenkins Master LTS Peristant"
+		"name": "jenkins-master-lts"
 	},
 	"objects": [
 		{
