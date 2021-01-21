@@ -1,7 +1,7 @@
 FROM image-registry.openshift-image-registry.svc:5000/salesforce-ci/ose-jenkins
 # FROM jenkins/jenkins:lts
-ARG JENKINS_VERSION=2.263.2
-ARG JENKINS_WAR_PATH=/usr/lib/jenkins
+ENV JENKINS_VERSION=2.263.2
+ENV JENKINS_WAR_PATH=/usr/lib/jenkins
 # ARG JENKINS_WAR_PATH=/usr/share/jenkins/
 
 USER root
