@@ -2,16 +2,16 @@
 	"apiVersion": "v1",
 	"kind": "Template",
 	"labels": {
-		"app": "salesforce-jenkins-master",
-		"template": "salesforce-jenkins-master-template"
+		"app": "jenkins-master-persistent",
+		"template": "jenkins-master-template"
 	},
 	"metadata": {
 		"annotations": {
 			"iconClass": "icon-jenkins",
-			"openshift.io/display-name": "Salesforce Jenkins Master",
+			"openshift.io/display-name": "Jenkins Master Persistant",
 			"tags": "instant-app,jenkins"
 		},
-		"name": "salesforce-jenkins-master"
+		"name": "Jenkins Master LTS Peristant"
 	},
 	"objects": [
 		{
@@ -123,7 +123,7 @@
 									"periodSeconds": 360,
 									"timeoutSeconds": 240
 								},
-								"name": "salesforcejenkinsmaster",
+								"name": "jenkinsmasterpersistent",
 								"readinessProbe": {
 									"httpGet": {
 										"path": "/login",
@@ -167,7 +167,7 @@
 					{
 						"imageChangeParams": {
 							"automatic": true,
-							"containerNames": ["salesforcejenkinsmaster"],
+							"containerNames": ["jenkinsmasterpersistent"],
 							"from": {
 								"kind": "ImageStreamTag",
 								"name": "${JENKINS_IMAGE_STREAM_TAG}",
@@ -266,13 +266,13 @@
 			"description": "The name of the OpenShift Service exposed for the Jenkins container.",
 			"displayName": "Jenkins Service Name",
 			"name": "JENKINS_SERVICE_NAME",
-			"value": "salesforce-jenkins-master"
+			"value": "jenkins-master"
 		},
 		{
 			"description": "The name of the service used for master/slave communication.",
 			"displayName": "Jenkins JNLP Service Name",
 			"name": "JNLP_SERVICE_NAME",
-			"value": "salesforce-jenkins-master-jnlp"
+			"value": "jenkins-master-jnlp"
 		},
 		{
 			"description": "Whether to enable OAuth OpenShift integration. If false, the static account 'admin' will be initialized with the password 'password'.",
