@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+    name: openshift-jenkins-login-plugin-config
+    namespace: salesforce-ci
+data:
+    Overall-Administer: admin
+    Overall-Read: view
