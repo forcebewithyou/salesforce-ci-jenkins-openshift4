@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Template
+labels:
+  template: jenkins-master-lts-builder
+metadata:
+  annotations:
+    description: Provide a convenient way to convert an image for Jenkins master with latest LTS
+    iconClass: icon-jenkins
+    tags: instant-app,jenkins-master
+  name: jenkins-master-builder
+objects:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    name: jenkins-${MASTER_LABEL}
+  spec: {}
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      description: Modifies the ${IMAGE_NAME} to run as Jenkins master
+    labels:
+      name: jenkins-master-${MASTER_LABEL}
+    name: jenkins-master-${MASTER_LABEL}
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: jenkins-master-${MASTER_LABEL}:latest
+    resources: {}
+    source:
+      contextDir: ${MASTER_REPO_CONTEXTDIR}
+      git:
+        ref: ${MASTER_REPO_REF}
+        uri: ${MASTER_REPO_URL}
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: ${IMAGE_NAME}
+          namespace: ${NAMESPACE}
+    triggers:
+    - type: ConfigChange
+parameters:
+- description: The name of an image to convert to a Jenkins master lts image.
+  displayName: Image Name
+  name: IMAGE_NAME
+  required: true
+  value: ose-jenkins:latest
+- description: Label for master pod
+  displayName: Jenkins Master Label
+  name: MASTER_LABEL
+  required: true
+  value: salesforce
+- description: Git repository with Dockerfile
+  displayName: Repository URL
+  name: MASTER_REPO_URL
+  value: https://github.com/forcebewithyou/salesforce-ci-jenkins-openshift4.git
+- description: The sub-directory inside the repository.
+  displayName: Context Directory
+  name: MASTER_REPO_CONTEXTDIR
+  value: /
+- description: The git ref or tag to use for customization.
+  displayName: Git Reference
+  name: MASTER_REPO_REF
+  value: master
+- description: The OpenShift Namespace ImageStream resides.
+  displayName: Jenkins ImageStream Namespace
+  name: NAMESPACE
+  value: salesforce-ci
