@@ -7,6 +7,7 @@
 	},
 	"metadata": {
 		"annotations": {
+			"description": "Jenkins service, with custom extended image and persistent storage.",
 			"iconClass": "icon-jenkins",
 			"openshift.io/display-name": "Jenkins Master LTS Persistant",
 			"tags": "instant-app,jenkins"
@@ -81,6 +82,10 @@
 									{
 										"name": "OPENSHIFT_ENABLE_OAUTH",
 										"value": "${ENABLE_OAUTH}"
+									},
+									{
+										"name": "OVERRIDE_PV_PLUGINS_WITH_IMAGE_PLUGINS",
+										"value": "${ENABLE_PLUGIN_COPY_FROM_IMAGE}"
 									},
 									{
 										"name": "OPENSHIFT_ENABLE_REDIRECT_PROMPT",
@@ -315,6 +320,12 @@
 			"description": "When a fatal error occurs, an error log is created with information and the state obtained at the time of the fatal error.",
 			"displayName": "Fatal Error Log File",
 			"name": "ENABLE_FATAL_ERROR_LOG_FILE",
+			"value": "false"
+		},
+		{
+			"description": "When a POD is recreated then plugin configuration from image is copied over to persistent disk",
+			"displayName": "Copy Plugins from Image",
+			"name": "ENABLE_PLUGIN_COPY_FROM_IMAGE",
 			"value": "false"
 		}
 	]
