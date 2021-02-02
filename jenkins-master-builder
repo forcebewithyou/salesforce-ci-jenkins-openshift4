@@ -10,7 +10,7 @@ metadata:
   name: jenkins-master-builder
 objects:
 - apiVersion: v1
-  kind: ImageStream
+  kind: ImageStreamTag
   metadata:
     name: jenkins-${MASTER_LABEL}
   spec: {}
@@ -70,7 +70,7 @@ parameters:
 - description: The git ref or tag to use for customization.
   displayName: Git Reference
   name: MASTER_REPO_REF
-  value: master
+  value: openshift3
 - description: The OpenShift Namespace ImageStream resides.
   displayName: Jenkins ImageStream Namespace
   name: NAMESPACE
