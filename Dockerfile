@@ -1,5 +1,6 @@
 # FROM image-registry.openshift-image-registry.svc:5000/salesforce-ci/ose-jenkins
-FROM registry.redhat.io/openshift3/jenkins-2-rhel7
+# FROM registry.redhat.io/openshift3/jenkins-2-rhel7
+FROM quay.io/openshift/origin-jenkins
 # FROM jenkins/jenkins:lts
 ENV JENKINS_VERSION=2.263.3
 ENV JENKINS_WAR_PATH=/usr/lib/jenkins

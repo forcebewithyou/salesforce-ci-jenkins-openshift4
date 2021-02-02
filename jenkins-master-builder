@@ -27,7 +27,13 @@ objects:
       to:
         kind: ImageStreamTag
         name: jenkins-master-${MASTER_LABEL}:latest
-    resources: {}
+    resources:
+      limits:
+        cpu: '1'
+        memory: 512Mi
+      requests:
+        cpu: '1'
+        memory: 512Mi
     source:
       contextDir: ${MASTER_REPO_CONTEXTDIR}
       git:
@@ -37,22 +43,22 @@ objects:
     strategy:
       dockerStrategy:
         from:
-          kind: ImageStreamTag
-          name: ${IMAGE_NAME}
-          namespace: ${NAMESPACE}
+          kind: DockerImage
+          name: ${IMAGE_PATH}
+      type: Docker
     triggers:
     - type: ConfigChange
 parameters:
 - description: The name of an image to convert to a Jenkins master lts image.
   displayName: Image Name
-  name: IMAGE_NAME
+  name: IMAGE_PATH
   required: true
-  value: ose-jenkins:latest
+  value: quay.io/openshift/origin-jenkins
 - description: Label for master pod
   displayName: Jenkins Master Label
   name: MASTER_LABEL
   required: true
-  value: salesforce
+  value: lts
 - description: Git repository with Dockerfile
   displayName: Repository URL
   name: MASTER_REPO_URL
@@ -68,4 +74,4 @@ parameters:
 - description: The OpenShift Namespace ImageStream resides.
   displayName: Jenkins ImageStream Namespace
   name: NAMESPACE
-  value: salesforce-ci
+  value: salesforce-dev
