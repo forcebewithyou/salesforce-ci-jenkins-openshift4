@@ -12,13 +12,13 @@ objects:
 - apiVersion: v1
   kind: ImageStreamTag
   metadata:
-    name: jenkins-${MASTER_LABEL}
+    name: jenkins-master-${MASTER_LABEL}:latest
   spec: {}
 - apiVersion: v1
   kind: BuildConfig
   metadata:
     annotations:
-      description: Modifies the ${IMAGE_NAME} to run as Jenkins master
+      description: Modifies the ${IMAGE_PATH} to run as Jenkins master
     labels:
       name: jenkins-master-${MASTER_LABEL}
     name: jenkins-master-${MASTER_LABEL}
