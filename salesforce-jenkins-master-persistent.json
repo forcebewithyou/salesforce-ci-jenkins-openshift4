@@ -139,7 +139,12 @@
 								},
 								"resources": {
 									"limits": {
-										"memory": "${MEMORY_LIMIT}"
+										"memory": "${MEMORY_LIMIT}",
+										"cpu": "${CPU_LIMT}"
+									},
+									"requests": {
+										"memory": "${MEMORY_LIMIT}",
+										"cpu": "${CPU_LIMT}"
 									}
 								},
 								"securityContext": {
@@ -292,6 +297,12 @@
 			"value": "2Gi"
 		},
 		{
+			"description": "Maximum amount of CPU the container can use (core not millicores).",
+			"displayName": "CPU Limit",
+			"name": "CPU_LIMIT",
+			"value": "2"
+		},
+		{
 			"description": "Volume space available for data, e.g. 512Mi, 2Gi.",
 			"displayName": "Volume Capacity",
 			"name": "VOLUME_CAPACITY",
@@ -302,7 +313,7 @@
 			"description": "The OpenShift Namespace where the Jenkins ImageStream resides.",
 			"displayName": "Jenkins ImageStream Namespace",
 			"name": "NAMESPACE",
-			"value": "salesforce-ci"
+			"value": "salesforce-dev"
 		},
 		{
 			"description": "Whether to perform memory intensive, possibly slow, synchronization with the Jenkins Update Center on start.  If true, the Jenkins core update monitor and site warnings monitor are disabled.",
@@ -314,7 +325,7 @@
 			"description": "Name of the ImageStreamTag to be used for the Jenkins image.",
 			"displayName": "Jenkins ImageStreamTag",
 			"name": "JENKINS_IMAGE_STREAM_TAG",
-			"value": "jenkins-lts-master:latest"
+			"value": "jenkins-master-lts:latest"
 		},
 		{
 			"description": "When a fatal error occurs, an error log is created with information and the state obtained at the time of the fatal error.",
