@@ -1,0 +1,181 @@
+apiVersion: v1
+kind: Template
+labels:
+    template: gitlab-runner-template
+metadata:
+    annotations:
+        description: Provide a convenient way to setup gitlab runner
+        iconClass: icon-gitlab
+        tags: instant-app,gitlab-runner
+    name: gitlab-runner-template
+objects:
+    - apiVersion: v1
+      kind: DeploymentConfig
+      metadata:
+          # annotations:
+          #     kubectl.kubernetes.io/last-applied-configuration: >
+          #         {"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","metadata":{"annotations":{},"labels":{"app":"gitlab-runner","createdBy":"gitlab-runner-template","name":"gitlab-runner","namespace":"salesforce-dev"},"name":"gitlab-runner","namespace":"salesforce-dev"},"spec":{"replicas":1,"selector":{"app":"gitlab-runner","deploymentconfig":"gitlab-runner"},"strategy":{"type":"Recreate"},"template":{"metadata":{"labels":{"app":"gitlab-runner","deploymentconfig":"gitlab-runner"}},"spec":{"containers":[{"command":["/bin/bash","/scripts/entrypoint"],"env":[{"name":"CI_SERVER_URL","value":"https://gitlab.com/"},{"name":"REGISTRATION_TOKEN","value":"fXHivxi-sdhJ1GoBefw2"},{"name":"RUNNER_TAG_LIST","value":"salesforce-runner"},{"name":"REGISTER_NON_INTERACTIVE","value":"true"},{"name":"RUNNER_NAME","value":"gitlab-runner"},{"name":"CONFIG_FILE","value":"/tmp/config.toml"},{"name":"RUNNER_EXECUTOR","value":"kubernetes"},{"name":"KUBERNETES_IMAGE","value":"docker-registry.default.svc:5000/openshift/ose-cli"},{"name":"RUNNER_BUILDS_DIR","value":"/tmp"},{"name":"RUNNER_ENV","value":"HOME=/tmp"},{"name":"KUBERNETES_NAMESPACE","value":"salesforce-dev"},{"name":"KUBERNETES_CPU_LIMIT","value":"600m"},{"name":"KUBERNETES_MEMORY_LIMIT","value":"600Mi"},{"name":"KUBERNETES_SERVICE_CPU_LIMIT","value":"600m"},{"name":"KUBERNETES_SERVICE_MEMORY_LIMIT","value":"600Mi"},{"name":"KUBERNETES_HELPER_CPU_LIMIT","value":"500m"},{"name":"KUBERNETES_HELPER_MEMORY_LIMIT","value":"100Mi"}],"image":"gitlab-runner","imagePullPolicy":"IfNotPresent","lifecycle":{"preStop":{"exec":{"command":["gitlab-runner","unregister","--all-runners"]}}},"livenessProbe":{"exec":{"command":["/usr/bin/pgrep","gitlab-runner"]},"failureThreshold":3,"initialDelaySeconds":60,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":1},"name":"gitlab-runner","ports":[{"containerPort":22,"protocol":"TCP"},{"containerPort":80,"protocol":"TCP"}],"readinessProbe":{"exec":{"command":["/usr/bin/pgrep","gitlab-runner"]},"failureThreshold":3,"initialDelaySeconds":10,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":1},"resources":{"limits":{"cpu":"600m","memory":"600Mi"},"requests":{"cpu":"100m","memory":"300Mi"}},"terminationMessagePath":"/dev/termination-log","volumeMounts":[{"mountPath":"/scripts","name":"scripts"}]}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always",terminationGracePeriodSeconds":30,"volumes":[{"configMap":{"name":"gitlab-runner-scripts"},"name":"scripts"},{"name":"ca-certificates","secret":{"secretName":"ca-certificates"}}]}},"test":false,"triggers":[{"type":"ConfigChange"},{"imageChangeParams":{"automatic":true,"containerNames":["gitlab-runner"],"from":{"kind":"ImageStreamTag","name":"gitlab-runner:latest","namespace":"salesforce-dev"}},"type":"ImageChange"}]}}
+          labels:
+              app: gitlab-runner-${APP_LABEL}
+              createdBy: gitlab-runner-template
+              name: gitlab-runner-${APP_LABEL}
+              namespace: ${NAMESPACE}
+          name: gitlab-runner-${APP_LABEL}
+          namespace: ${NAMESPACE}
+      spec:
+          replicas: 1
+          revisionHistoryLimit: 10
+          selector:
+              app: gitlab-runner-${APP_LABEL}
+              deploymentconfig: gitlab-runner-${APP_LABEL}
+          strategy:
+              activeDeadlineSeconds: 21600
+              recreateParams:
+                  timeoutSeconds: 600
+              resources: {}
+              type: Recreate
+          template:
+              metadata:
+                  creationTimestamp: null
+                  labels:
+                      app: gitlab-runner-${APP_LABEL}
+                      deploymentconfig: gitlab-runner-${APP_LABEL}
+              spec:
+                  containers:
+                      - command:
+                            - /bin/bash
+                            - /scripts/entrypoint
+                        env:
+                            - name: HOME
+                              value: /home
+                            - name: CI_SERVER_URL
+                              value: ${CI_SERVER_URL}
+                            - name: REGISTRATION_TOKEN
+                              value: ${REGISTRATION_TOKEN}
+                            - name: RUNNER_TAG_LIST
+                              value: ${RUNNER_TAG_LIST}
+                            - name: REGISTER_NON_INTERACTIVE
+                              value: "true"
+                            - name: RUNNER_NAME
+                              value: gitlab-runner-${APP_LABEL}
+                            - name: CONFIG_FILE
+                              value: /tmp/config.toml
+                            - name: RUNNER_EXECUTOR
+                              value: kubernetes
+                            - name: KUBERNETES_IMAGE
+                              value: "docker-registry.default.svc:5000/openshift/ose-cli"
+                            - name: RUNNER_BUILDS_DIR
+                              value: /tmp
+                            - name: RUNNER_ENV
+                              value: HOME=/tmp
+                            - name: KUBERNETES_NAMESPACE
+                              value: ${NAMESPACE}
+                            - name: KUBERNETES_CPU_LIMIT
+                              value: 600m
+                            - name: KUBERNETES_MEMORY_LIMIT
+                              value: 600Mi
+                            - name: KUBERNETES_SERVICE_CPU_LIMIT
+                              value: 600m
+                            - name: KUBERNETES_SERVICE_MEMORY_LIMIT
+                              value: 600Mi
+                            - name: KUBERNETES_HELPER_CPU_LIMIT
+                              value: 500m
+                            - name: KUBERNETES_HELPER_MEMORY_LIMIT
+                              value: 100Mi
+                        image: >-
+                            registry.apps.usae-1.syngentaaws.org/gitlab/gitlab-runner@sha256:869aefae62955e49b27e446c534dedd54689e32d477f94f431d35b632b889996
+                        imagePullPolicy: IfNotPresent
+                        lifecycle:
+                            preStop:
+                                exec:
+                                    command:
+                                        - gitlab-runner
+                                        - unregister
+                                        - "--all-runners"
+                        livenessProbe:
+                            exec:
+                                command:
+                                    - /usr/bin/pgrep
+                                    - gitlab-runner
+                            failureThreshold: 3
+                            initialDelaySeconds: 60
+                            periodSeconds: 10
+                            successThreshold: 1
+                            timeoutSeconds: 1
+                        name: gitlab-runner
+                        ports:
+                            - containerPort: 22
+                              protocol: TCP
+                            - containerPort: 80
+                              protocol: TCP
+                        readinessProbe:
+                            exec:
+                                command:
+                                    - /usr/bin/pgrep
+                                    - gitlab-runner
+                            failureThreshold: 3
+                            initialDelaySeconds: 10
+                            periodSeconds: 10
+                            successThreshold: 1
+                            timeoutSeconds: 1
+                        resources:
+                            limits:
+                                cpu: 600m
+                                memory: 600Mi
+                            requests:
+                                cpu: 100m
+                                memory: 300Mi
+                        terminationMessagePath: /dev/termination-log
+                        terminationMessagePolicy: File
+                        volumeMounts:
+                            - mountPath: /scripts
+                              name: scripts
+                  dnsPolicy: ClusterFirst
+                  restartPolicy: Always
+                  schedulerName: default-scheduler
+                  securityContext: {}
+                  serviceAccount: gitlab-runner-user
+                  serviceAccountName: gitlab-runner-user
+                  terminationGracePeriodSeconds: 30
+                  volumes:
+                      - configMap:
+                            defaultMode: 420
+                            name: gitlab-runner-scripts
+                        name: scripts
+          test: false
+          triggers:
+              - imageChangeParams:
+                    automatic: true
+                    containerNames:
+                        - gitlab-runner
+                    from:
+                        kind: ImageStreamTag
+                        name: "syngenta-gitlab-runner:latest"
+                        namespace: ${NAMESPACE}
+                type: ImageChange
+              - type: ConfigChange
+parameters:
+    - description: Label for the runner app
+      displayName: Label
+      name: APP_LABEL
+      required: true
+      value: salesforce-1
+    - description: This is the current namespace
+      displayName: Namespace
+      name: NAMESPACE
+      required: true
+      value: salesforce-dev
+    - description: URL of gitlab server e.g https://gitlab.com/
+      displayName: Gitlab Server URL
+      name: CI_SERVER_URL
+      required: true
+      value: https://gitlab.com/
+    - description: Registration token provided by gitlab server for build
+      displayName: Registration Token
+      name: REGISTRATION_TOKEN
+      required: true
+    - description: Tag names supported by the runner
+      displayName: Tags
+      name: RUNNER_TAG_LIST
+      required: true
+      value: salesforce-usae-2-runner
